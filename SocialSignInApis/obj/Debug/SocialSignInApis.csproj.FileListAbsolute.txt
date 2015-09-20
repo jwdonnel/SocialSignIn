@@ -1,0 +1,6 @@
+C:\Users\John\Documents\GitHub\SocialSignIn\SocialSignInApis\obj\Debug\SocialSignInApis.csprojResolveAssemblyReference.cache
+C:\Users\John\Documents\GitHub\SocialSignIn\SocialSignInApis\bin\Debug\SocialSignInApis.dll.config
+C:\Users\John\Documents\GitHub\SocialSignIn\SocialSignInApis\bin\Debug\SocialSignInApis.dll
+C:\Users\John\Documents\GitHub\SocialSignIn\SocialSignInApis\bin\Debug\SocialSignInApis.pdb
+C:\Users\John\Documents\GitHub\SocialSignIn\SocialSignInApis\obj\Debug\SocialSignInApis.dll
+C:\Users\John\Documents\GitHub\SocialSignIn\SocialSignInApis\obj\Debug\SocialSignInApis.pdb
