@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -13,7 +13,7 @@ namespace SocialSignInApis.Apis.FaceBookLogin {
 
     public class FaceBookConnect {
 
-        private const string graphApiUrl = "https://graph.facebook.com/v2.2/";
+        private const string graphApiUrl = "https://graph.facebook.com/v2.11/";
         public static string API_Key { get; set; }
         public static string API_Secret { get; set; }
 
@@ -46,7 +46,14 @@ namespace SocialSignInApis.Apis.FaceBookLogin {
                 using (Web_Response = Web_Request.GetResponse()) {
                     using (Stream stream = Web_Response.GetResponseStream()) {
                         StreamReader reader = new StreamReader(stream);
-                        AccessToken = reader.ReadToEnd();
+                        string tempAccessToken = reader.ReadToEnd();
+                        try {
+                            FacebookAccessTokenRequest facebookAccess = new JavaScriptSerializer().Deserialize<FacebookAccessTokenRequest>(tempAccessToken);
+                            AccessToken = facebookAccess.access_token;
+                        }
+                        catch {
+                            AccessToken = tempAccessToken;
+                        }
                     }
                 }
             }
@@ -59,7 +66,7 @@ namespace SocialSignInApis.Apis.FaceBookLogin {
             string jsonStr = string.Empty;
             if (!string.IsNullOrEmpty(AccessToken)) {
                 try {
-                    Web_Request = WebRequest.Create(graphApiUrl + node + "?" + AccessToken);
+                    Web_Request = WebRequest.Create(graphApiUrl + node + "?access_token=" + AccessToken);
                     Web_Request.Method = "GET";
 
                     using (Web_Response = Web_Request.GetResponse()) {
@@ -78,7 +85,7 @@ namespace SocialSignInApis.Apis.FaceBookLogin {
         }
         private void DeletePermissions(string node) {
             if (!string.IsNullOrEmpty(AccessToken)) {
-                Web_Request = WebRequest.Create(graphApiUrl + node + "/permissions?" + AccessToken);
+                Web_Request = WebRequest.Create(graphApiUrl + node + "/permissions?access_token=" + AccessToken);
                 Web_Request.Method = "DELETE";
 
                 using (Web_Response = Web_Request.GetResponse()) {
@@ -97,6 +104,13 @@ namespace SocialSignInApis.Apis.FaceBookLogin {
 
     public class FaceBookPermissions {
         public string success { get; set; }
+    }
+
+    public class FacebookAccessTokenRequest {
+        public string access_token { get; set; }
+        public string token_type { get; set; }
+        public string expires_in { get; set; }
+        public string auth_type { get; set; }
     }
 
     public class FaceBookUser {
